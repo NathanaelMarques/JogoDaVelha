@@ -20,9 +20,10 @@ public class Main {
                 tab.recebeVal(player.getLinha(), player.getColuna(), player.getInput()); //detecta se is valores estão corretos
 
             }catch(ArrayIndexOutOfBoundsException e){
-
+                System.out.print("\033[H\033[2J");  
+                System.out.flush(); 
                 System.out.println("Valores inseridos inválidos!");
-
+             
             }
 
           if(tab.vitoria()){

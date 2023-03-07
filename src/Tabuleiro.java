@@ -16,6 +16,9 @@ public void preparaTab(){
     public void recebeVal(int linha,int coluna,int valor){
 
         if(tabuleiro[linha][coluna]!= -1){
+     
+            System.out.print("\033[H\033[2J");  
+            System.out.flush(); 
             System.out.println("Espaço ocupado");
         }else{
             tabuleiro[linha][coluna] = valor;
@@ -25,14 +28,17 @@ public void preparaTab(){
             }else if(Jogador.jogadores == 2&&vitoria()==false){
                 Jogador.jogadores = 1;
             }
+          System.out.print("\033[H\033[2J");  
+      System.out.flush(); 
         }
+      
 
 
     }
 
 
 public void mostraTabuleiro(){
-
+    
     for (int linha = 0; linha< tabuleiro.length; linha++){
         for (int coluna = 0; coluna< tabuleiro[linha].length; coluna++){
             if(tabuleiro[linha][coluna] == 0){
