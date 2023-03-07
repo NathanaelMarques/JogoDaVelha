@@ -9,7 +9,7 @@ public class Main {
         int jogadores = 1; //desenvolver lógica para jogadores
         int L;//linha
         int C;//coluna
-        boolean game = true;
+        boolean game =  true;
 
         Tabuleiro tab = new Tabuleiro();
         tab.preparaTab();
