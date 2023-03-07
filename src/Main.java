@@ -1,33 +1,23 @@
-
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
 
         System.out.println("Bem vindos ao JOGO DA VELHA");
-        Scanner input = new Scanner(System.in); //inputs kkkk
-        int jogadores = 1; //desenvolver lógica para jogadores
-        int L;//linha
-        int C;//coluna
+
+
         boolean game =  true;
 
         Tabuleiro tab = new Tabuleiro();
+        Jogador player = new Jogador();
         tab.preparaTab();
         System.out.println("Vamos começar!");
 
         while(game){
-            tab.mostraTab();
-            System.out.println("Jogador " + jogadores +":");
-
-            System.out.print("Digite a linha:");
-            L=input.nextInt();
-            System.out.println("Digite a coluna:");
-            C= input.nextInt();
-            System.out.println("Insira O ou X");
+            tab.mostraTabuleiro();
+            player.getJogadorInput();
 
             try {
 
-                tab.recebeVal(L - 1, C - 1, input.next()); //detecta se is valores estão corretos
+                tab.recebeVal(player.getLinha(), player.getColuna(), player.getInput()); //detecta se is valores estão corretos
 
             }catch(ArrayIndexOutOfBoundsException e){
 
@@ -35,12 +25,15 @@ public class Main {
 
             }
 
-
-            if(tab.vitoriaOuEmpate()){
-                tab.mostraTab();
-                System.out.println("Vitória do Jogador " + jogadores);
+          if(tab.vitoria()){
+                tab.mostraTabuleiro();
+                System.out.println("Vitória do Jogador " + Jogador.jogadores);
                 game=false;
-            }
+            }else if(tab.empate()){
+              tab.mostraTabuleiro();
+              System.out.println("EMPATE");
+              game=false;
+          }
         }
 
 

@@ -1,120 +1,75 @@
 public class Tabuleiro {
 
-   private int[][] tabuleiro = new int[3][3]; // visao do sistema
-    private String[][] tabuleiroJogador = new String[3][3]; //visao do jogador
+   private int[][] tabuleiro = new int[3][3]; // tabuleiro
+   protected int contaResto = 0; //Descobrir quantos espaços ainda podem ser preenchidos
 
 public void preparaTab(){
     for (int linha = 0; linha< tabuleiro.length; linha++){
         for (int coluna = 0; coluna< tabuleiro.length; coluna++){
             tabuleiro[linha][coluna] = -1;
+            contaResto++;
         }
     }
 }
 
 
-    public void recebeVal(int linha,int coluna,String valorS){
-    int valor=-1;
-    if(valorS.equalsIgnoreCase("O")||valorS.equalsIgnoreCase("0")){
-        valor=0;
-    }else if(valorS.equalsIgnoreCase("X")||valorS.equalsIgnoreCase("1")){
-        valor=1;
-    }
+    public void recebeVal(int linha,int coluna,int valor){
 
-    if(valor>1||valor<0){
-            System.out.println("Valores inseridos inválidos!");
-        }
-        else if(tabuleiro[linha][coluna]!= -1){
+        if(tabuleiro[linha][coluna]!= -1){
             System.out.println("Espaço ocupado");
         }else{
             tabuleiro[linha][coluna] = valor;
+            contaResto--;
+            if(Jogador.jogadores == 1&&vitoria()==false){
+                Jogador.jogadores = 2;
+            }else if(Jogador.jogadores == 2&&vitoria()==false){
+                Jogador.jogadores = 1;
+            }
         }
 
 
     }
-public void controleTab(){
 
-    for (int linha = 0; linha< tabuleiro.length; linha++){ //controle do tabuleiro
-        for (int coluna = 0; coluna< tabuleiro.length; coluna++){
 
-            if(tabuleiro[linha][coluna] == 0){
-                tabuleiroJogador[linha][coluna] ="O";
-            }else if(tabuleiro[linha][coluna] == 1) {
-                tabuleiroJogador[linha][coluna] ="X";
-            }else{
-                tabuleiroJogador[linha][coluna]=" ";}
-        }
-    }
-}
+public void mostraTabuleiro(){
 
-public void mostraTab(){
-
-    controleTab();
-
-    for (int linha = 0; linha< tabuleiro.length; linha++){ //mostrando a tabuleiro
+    for (int linha = 0; linha< tabuleiro.length; linha++){
         for (int coluna = 0; coluna< tabuleiro[linha].length; coluna++){
-            System.out.print("|"+ tabuleiroJogador[linha][coluna]+"|");
+            if(tabuleiro[linha][coluna] == 0){
+                System.out.print("|"+ "O" + "|");
+            }else if(tabuleiro[linha][coluna] == 1) {
+                System.out.print("|"+ "X" + "|");
+            }else{
+                System.out.print("|"+ " " + "|");
+            }
         }
         System.out.println();
     }
-    vitoriaOuEmpate();
+    vitoria();
+    empate();
 }
 
-public boolean vitoriaOuEmpate(){
-   boolean vitoria = false;
-   int vitO = 0; //contador O
-   int vitX = 0;// contador X
-   for(int i =0;i<tabuleiro.length;i++){
-       for(int j =0;j<tabuleiro.length;j++){
-           if(tabuleiro[i][j]==0){
-               vitO++;
-           } if (tabuleiro[i][j]==1) {
-               vitX++;
-           }
-       }
-       if(vitO <3){
-           vitO =0;
-       }
-       if(vitX<3){
-           vitX=0;
-       }
-   }
+public boolean vitoria(){
+
     for(int i =0;i<tabuleiro.length;i++){
-        for(int j =0;j<tabuleiro.length;j++){
-            if(tabuleiro[j][i]==0){
-                vitO++;
-            } if (tabuleiro[j][i]==1) {
-                vitX++;
-            }
-        }
-        if(vitO <3){
-            vitO =0;
-        }
-        if(vitX<3){
-            vitX=0;
+
+       if((tabuleiro[i][0]==0&&tabuleiro[i][1]==0&&tabuleiro[i][2]==0)||(tabuleiro[i][0]==1&&tabuleiro[i][1]==1&tabuleiro[i][2]==1)){
+           return true;
+       }else if((tabuleiro[0][i]==0&&tabuleiro[1][i]==0&&tabuleiro[2][i]==0)||(tabuleiro[0][i]==1&&tabuleiro[1][i]==1&tabuleiro[2][i]==1)){
+            return true;
+        }else if((tabuleiro[0][0]==0&&tabuleiro[1][1]==0&&tabuleiro[2][2]==0)||(tabuleiro[0][0]==1&&tabuleiro[1][1]==1&&tabuleiro[2][2]==1)){
+               return true;
+        }else if((tabuleiro[0][2]==0&&tabuleiro[1][1]==0&&tabuleiro[2][0]==0)||(tabuleiro[0][2]==1&&tabuleiro[1][1]==1&&tabuleiro[2][0]==1)){
+               return true;
         }
     }
-   if(vitX==3){
-       vitoria=true;
-       return vitoria;
-   }
-   else if(vitO ==3){
-       vitoria=true;
-       return vitoria;
-   } else if(tabuleiro[0][0]==1&&tabuleiro[1][1]==1&&tabuleiro[2][2]==1){
-       vitoria=true;
-       return vitoria;
-   } else if (tabuleiro[0][2]==1&&tabuleiro[1][1]==1&&tabuleiro[2][0]==1) {
-       vitoria=true;
-       return vitoria;
-   }else if(tabuleiro[0][0]==0&&tabuleiro[1][1]==0&&tabuleiro[2][2]==0){
-        vitoria=true;
-        return vitoria;
-    } else if (tabuleiro[0][2]==0&&tabuleiro[1][1]==0&&tabuleiro[2][0]==0) {
-       vitoria=true;
-       return vitoria;
-    }//HARD CODE kkkk
 
  return false;
 }
-
+public boolean empate(){
+    if(contaResto==0){
+        return true;
+    }
+    return false;
+}
 }
